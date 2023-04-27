@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import Spinner from '@/components/Spinner'
+import { ReactSortable } from 'react-sortablejs'
 
 export default function ProductForm({
 	_id,
@@ -14,6 +16,7 @@ export default function ProductForm({
 	const [price, setPrice] = useState(existingPrice || '')
 	const [images, setImages] = useState(existingImges || [])
 	const [goToProducts, setGoToProducts] = useState(false)
+	const [isUploading, setIsUploading] = useState(false)
 	const router = useRouter()
 
 	async function saveProduct(ev) {
@@ -37,6 +40,8 @@ export default function ProductForm({
 	async function uploadImages(ev) {
 		const files = ev.target?.files
 		if (files?.length > 0) {
+			setIsUploading(true)
+
 			const data = new FormData()
 
 			for (const file of files) {
@@ -47,7 +52,12 @@ export default function ProductForm({
 			setImages((oldImages) => {
 				return [...oldImages, ...res.data.links]
 			})
+			setIsUploading(false)
 		}
+	}
+
+	function updateImageOrder(images) {
+		setImages(images)
 	}
 
 	return (
@@ -61,13 +71,32 @@ export default function ProductForm({
 			/>
 
 			<label>Photos</label>
-			<div className='mb-2 flex flex-wrap gap-2'>
+			<div className="mb-2 flex flex-wrap gap-1">
+				<ReactSortable
+					className="flex flex-wrap gap-1"
+					list={images}
+					setList={updateImageOrder}
+				>
+					{!!images?.length &&
+						images.map((link) => (
+							<div
+								key={link}
+								className="h-24"
+							>
+								<img
+									src={link}
+									alt=""
+									className="rounded-lg"
+								/>
+							</div>
+						))}
+				</ReactSortable>
 
-                {!!images?.length && images.map( link => (
-                    <div key={link} className='h-24'>
-                        <img src={link} alt='' className='rounded-lg' />
-                    </div>
-                ))}
+				{isUploading && (
+					<div className="h-24 p-1 flex items-center">
+						<Spinner />
+					</div>
+				)}
 
 				<label className="w-24 h-24 text-center cursor-pointer flex items-center justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200">
 					<svg
@@ -91,7 +120,6 @@ export default function ProductForm({
 						className="hidden"
 					/>
 				</label>
-				{!images?.length && <div>No photos in this product.</div>}
 			</div>
 
 			<label>Description</label>

@@ -1,6 +1,6 @@
 import multiparty from 'multiparty'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import fs, { linkSync } from 'fs'
+import fs from 'fs'
 import mime from 'mime-types'
 
 const bucketName = 'paatoag-next-ecommerce'

@@ -11,9 +11,13 @@ export default function ProductForm({
 	price: existingPrice,
 	images: existingImges,
 	category: assignedCategory,
+	properties: assignedProperties,
 }) {
 	const [title, setTitle] = useState(existingTitle || '')
 	const [category, setCategory] = useState(assignedCategory || '')
+	const [productProperties, setProductProperties] = useState(
+		assignedProperties || {}
+	)
 	const [description, setDescription] = useState(existingDescription || '')
 	const [price, setPrice] = useState(existingPrice || '')
 	const [images, setImages] = useState(existingImges || [])
@@ -30,7 +34,14 @@ export default function ProductForm({
 
 	async function saveProduct(ev) {
 		ev.preventDefault()
-		const data = { title, description, price, images, category }
+		const data = {
+			title,
+			description,
+			price,
+			images,
+			category,
+			properties: productProperties,
+		}
 
 		if (_id) {
 			//update
@@ -69,6 +80,27 @@ export default function ProductForm({
 		setImages(images)
 	}
 
+	function setProductProperty(propertyName, value) {
+		setProductProperties((oldProps) => ({
+			...oldProps,
+			[propertyName]: value,
+		}))
+	}
+
+	const propertiesToFill = []
+	if (categories.length > 0 && category) {
+		let categoryInfo = categories.find(({ _id }) => _id === category)
+		propertiesToFill.push(...categoryInfo.properties)
+
+		while (categoryInfo?.parent?._id) {
+			const parentCatInfo = categories.find(
+				({ _id }) => _id === categoryInfo?.parent?._id
+			)
+			propertiesToFill.push(...parentCatInfo.properties)
+			categoryInfo = parentCatInfo
+		}
+	}
+
 	return (
 		<form onSubmit={saveProduct}>
 			<label>Product name</label>
@@ -95,6 +127,31 @@ export default function ProductForm({
 						</option>
 					))}
 			</select>
+
+			{propertiesToFill.length > 0 &&
+				propertiesToFill.map((p) => (
+					<div
+						key={p._id}
+						className="flex gap-1"
+					>
+						<div>{p.name}</div>
+						<select
+							value={productProperties[p.name] || ''}
+							onChange={(ev) =>
+								setProductProperty(p.name, ev.target.value)
+							}
+						>
+							{p.values.map((v) => (
+								<option
+									key={v._id}
+									value={v}
+								>
+									{v}
+								</option>
+							))}
+						</select>
+					</div>
+				))}
 
 			<label>Photos</label>
 			<div className="mb-2 flex flex-wrap gap-1">

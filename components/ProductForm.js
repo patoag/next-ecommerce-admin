@@ -132,24 +132,25 @@ export default function ProductForm({
 				propertiesToFill.map((p) => (
 					<div
 						key={p._id}
-						className="flex gap-1"
 					>
-						<div>{p.name}</div>
-						<select
-							value={productProperties[p.name] || ''}
-							onChange={(ev) =>
-								setProductProperty(p.name, ev.target.value)
-							}
-						>
-							{p.values.map((v) => (
-								<option
-									key={v._id}
-									value={v}
-								>
-									{v}
-								</option>
-							))}
-						</select>
+						<label>{p.name[0].toUpperCase()+p.name.substring(1)}</label>
+						<div>
+							<select
+								value={productProperties[p.name] || ''}
+								onChange={(ev) =>
+									setProductProperty(p.name, ev.target.value)
+								}
+							>
+								{p.values.map((v) => (
+									<option
+										key={v._id}
+										value={v}
+									>
+										{v}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
 				))}
 
@@ -164,7 +165,7 @@ export default function ProductForm({
 						images.map((link) => (
 							<div
 								key={link}
-								className="h-24"
+								className="h-24 bg-white p-1 shadow-sm rounded-md border border-gray-200"
 							>
 								<img
 									src={link}
@@ -181,7 +182,7 @@ export default function ProductForm({
 					</div>
 				)}
 
-				<label className="w-24 h-24 text-center cursor-pointer flex items-center justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200">
+				<label className="w-24 h-24 text-center cursor-pointer flex flex-col items-center justify-center text-sm gap-1 text-gray-500 rounded-md bg-white shadow-md border border-gray-200">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

@@ -15,8 +15,6 @@ services:
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongo:27017/ecommerce
-      - NEXTAUTH_URL=http://localhost:3000
-      - NEXTAUTH_SECRET=pato_secret_key
       - API_BASE_URL=http://localhost:3000/api
       - CORS_ORIGIN=http://localhost:4000
     volumes:

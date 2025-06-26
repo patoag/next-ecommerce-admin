@@ -30,7 +30,7 @@ export default function DeleteProductPage() {
 	return (
 		<Layout>
 			<h1 className="text-center">
-				Do you really want to delete&nbsp;
+				¿Realmente deseas eliminar&nbsp;
 				<strong>{productInfo?.title}</strong>?
 			</h1>
 			<div className="flex gap-2 justify-center">
@@ -38,7 +38,7 @@ export default function DeleteProductPage() {
 					className="btn-red"
 					onClick={deleteProduct}
 				>
-					Yes
+					Sí
 				</button>
 				<button
 					className="btn-default"

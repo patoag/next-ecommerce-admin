@@ -59,11 +59,11 @@ function Categories({ swal }) {
 
 	function deleteCategory(category) {
 		swal.fire({
-			title: 'Are you sure?',
-			text: `Do you want to delete ${category.name}?`,
+			title: '¿Estás seguro?',
+			text: `¿Quieres eliminar ${category.name}?`,
 			showCancelButton: true,
-			cancelButtonText: 'Cancel',
-			confirmButtonText: 'Yes, Delete!',
+			cancelButtonText: 'Cancelar',
+			confirmButtonText: '¡Sí, Eliminar!',
 			confirmButtonColor: '#d55',
 			reverseButtons: true,
 		}).then(async (result) => {
@@ -108,18 +108,18 @@ function Categories({ swal }) {
 
 	return (
 		<Layout>
-			<h1>Categories</h1>
+			<h1>Categorías</h1>
 			<label>
 				{editedCategory
-					? `Edit category ${editedCategory.name}`
-					: 'Create new category'}
+					? `Editar categoría ${editedCategory.name}`
+					: 'Crear nueva categoría'}
 			</label>
 			<form onSubmit={saveCategory}>
 				<div className="flex gap-1">
 					<input
 						type="text"
 						value={name}
-						placeholder={'Category name'}
+						placeholder={'Nombre de la categoría'}
 						onChange={(ev) => setName(ev.target.value)}
 					/>
 
@@ -127,7 +127,7 @@ function Categories({ swal }) {
 						value={parentCategory}
 						onChange={(ev) => setParentCategory(ev.target.value)}
 					>
-						<option value="">No parent category</option>
+						<option value="">Sin categoría padre</option>
 						{categories.length > 0 &&
 							categories.map((category) => (
 								<option
@@ -141,13 +141,13 @@ function Categories({ swal }) {
 				</div>
 
 				<div className="mb-2">
-					<label className="block">Properties</label>
+					<label className="block">Propiedades</label>
 					<button
 						className="btn-default text-sm mb-2"
 						type="button"
 						onClick={addProperty}
 					>
-						Add new property
+						Agregar nueva propiedad
 					</button>
 					{properties.length > 0 &&
 						properties.map((property, index) => (
@@ -166,7 +166,7 @@ function Categories({ swal }) {
 											ev.target.value
 										)
 									}
-									placeholder="property name (example: color)"
+									placeholder="nombre de propiedad (ejemplo: color)"
 								/>
 								<input
 									type="text"
@@ -179,7 +179,7 @@ function Categories({ swal }) {
 											ev.target.value
 										)
 									}
-									placeholder="values, comma separated"
+									placeholder="valores, separados por comas"
 								/>
 
 								<button
@@ -187,7 +187,7 @@ function Categories({ swal }) {
 									onClick={() => removeProperty(index)}
 									type="button"
 								>
-									Remove
+									Eliminar
 								</button>
 							</div>
 						))}
@@ -205,14 +205,14 @@ function Categories({ swal }) {
                                 setProperties([])
 							}}
 						>
-							Cancel
+							Cancelar
 						</button>
 					)}
 					<button
 						className="btn-primary py-1"
 						type="sumbit"
 					>
-						Save
+						Guardar
 					</button>
 				</div>
 			</form>
@@ -221,8 +221,8 @@ function Categories({ swal }) {
 				<table className="basic mt-4">
 					<thead>
 						<tr>
-							<td>Category name</td>
-							<td>Parent category</td>
+							<td>Nombre de categoría</td>
+							<td>Categoría padre</td>
 							<td></td>
 						</tr>
 					</thead>
@@ -239,7 +239,7 @@ function Categories({ swal }) {
 												editCategory(category)
 											}
 										>
-											Edit
+											Editar
 										</button>
 										<button
 											className="btn-red"
@@ -247,7 +247,7 @@ function Categories({ swal }) {
 												deleteCategory(category)
 											}
 										>
-											Delete
+											Eliminar
 										</button>
 									</td>
 								</tr>

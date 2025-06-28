@@ -6,6 +6,8 @@
 
 Un panel de administración para ecommerce construido con Next.js, MongoDB y Docker. Diseñado para ser un template base para futuros proyectos y ofrecer una solución de administración de contenidos lista para usar y extender.
 
+**✨ Funciona de manera independiente o conectado con frontend ✨**
+
 ## Características
 
 - 🔐 Sistema de autenticación (con opción de deshabilitar para desarrollo)
@@ -114,6 +116,45 @@ NEXTAUTH_SECRET=your_secret_key
 - `POST /api/categories` - Crear una nueva categoría
 - `PUT /api/categories/:id` - Actualizar una categoría
 - `DELETE /api/categories/:id` - Eliminar una categoría
+
+## 🔗 Modos de Uso
+
+### Modo Independiente
+El panel funciona completamente solo:
+```bash
+# Clonar solo este repositorio
+git clone <admin-repo-url>
+cd next-ecommerce-admin
+
+# Ejecutar con Docker
+docker-compose up --build
+
+# Acceder en http://localhost:3000
+```
+
+### Modo Conectado con Frontend
+Para conectar con el frontend de la tienda:
+
+1. **Crear red Docker externa** (solo una vez):
+```bash
+docker network create ecommerce-network
+```
+
+2. **Ejecutar admin**:
+```bash
+cd next-ecommerce-admin
+docker-compose up -d
+```
+
+3. **Ejecutar frontend** (en otro terminal):
+```bash
+cd next-ecommerce-frontend
+docker-compose up --build
+```
+
+4. **Acceder**:
+   - Admin: `http://localhost:3000`
+   - Tienda: `http://localhost:4000`
 
 ## Uso como Template Base
 

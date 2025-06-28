@@ -4,9 +4,9 @@ export default function Logo() {
 	return (
 		<Link
 			href={'/'}
-			className="flex items-center gap-2"
+			className="flex items-center gap-3 group"
 		>
-			<div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
+			<div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -23,8 +23,8 @@ export default function Logo() {
 				</svg>
 			</div>
 			<div className="flex flex-col">
-				<span className="font-bold text-gray-800">Admin Panel</span>
-				<span className="text-xs text-gray-500">E-commerce</span>
+				<span className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">Panel Admin</span>
+				<span className="text-xs text-gray-500">Gestión de tienda</span>
 			</div>
 		</Link>
 	)

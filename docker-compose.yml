@@ -1,11 +1,14 @@
-version: '3'
+# Docker Compose para Panel de Administración
+# Puede ejecutarse independiente o conectado con frontend
 
 networks:
   ecommerce-network:
     name: ecommerce-network
+    driver: bridge
 
 services:
-  web:
+  # Panel de Administración
+  admin:
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,30 +17,35 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongo:27017/ecommerce
-      - API_BASE_URL=http://localhost:3000/api
-      - CORS_ORIGIN=http://localhost:4000
+      - MONGODB_URI=mongodb://ecommerce-mongodb-admin:27017/ecommerce
+      - PORT=3000
+      # Configuración S3 (opcional)
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY:-}
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
     depends_on:
-      - mongo
+      - mongodb
     networks:
       - ecommerce-network
     restart: unless-stopped
 
-  mongo:
-    image: mongo:latest
-    container_name: ecommerce-mongodb
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:6.0
+    container_name: ecommerce-mongodb-admin
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ecommerce
     volumes:
-      - mongo-data:/data/db
-      - ./scripts:/docker-entrypoint-initdb.d
+      - mongodb_data:/data/db
     networks:
       - ecommerce-network
     restart: unless-stopped
 
 volumes:
-  mongo-data:
+  mongodb_data:
+    driver: local
